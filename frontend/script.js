@@ -1,6 +1,6 @@
 // Configuration
-const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
-    ? "http://localhost:8000/api" 
+const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8000/api"
     : "/api";
 
 // State
@@ -80,7 +80,45 @@ function clearFile() {
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                // Compress and resize the image
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Set maximum dimensions
+                const MAX_WIDTH = 1200;
+                const MAX_HEIGHT = 1200;
+                let width = img.width;
+                let height = img.height;
+
+                // Calculate the new dimensions while maintaining aspect ratio
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width = Math.round((width * MAX_HEIGHT) / height);
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                // Draw image on canvas
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Export as compressed JPEG (0.8 quality = good balance of size and legibility)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                resolve(compressedBase64);
+            };
+            img.onerror = (error) => reject(error);
+            img.src = event.target.result;
+        };
         reader.onerror = error => reject(error);
         reader.readAsDataURL(file);
     });
