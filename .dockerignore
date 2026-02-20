@@ -1,0 +1,14 @@
+.git
+.github
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.db
+.env
+venv
+env
+.vscode
+.idea
+*.log
+multi-language-math-solver-*.json
