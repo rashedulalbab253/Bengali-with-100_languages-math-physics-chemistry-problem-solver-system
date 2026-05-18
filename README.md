@@ -1,7 +1,6 @@
-
-
 # 🧮 100+ Language STEM Solver (Math, Physics, Chemistry)
-**Developed by Rashedul Albab**
+
+**Developed by [Rashedul Albab](https://github.com/rashedulalbab253)**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet)](https://deepmind.google/technologies/gemini/)
